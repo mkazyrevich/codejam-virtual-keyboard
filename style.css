@@ -1,0 +1,21 @@
+.wrapper {
+  height: 50vw;
+  width: 80%;
+  border: 0;
+  /* background-color: #3e941c; */
+  margin: 0 auto;
+  /* display: grid;
+  grid-template-columns: repeat(46, 1fr);
+  grid-template-rows: repeat(5, 1fr); */
+}
+
+#input {
+  height: 30%;
+  width: 100%;
+}
+
+.keyboard {
+  width: 100%;
+  height: 60%;
+  margin-top: 50px;
+}
