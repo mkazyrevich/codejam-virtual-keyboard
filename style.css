@@ -1,12 +1,10 @@
 .wrapper {
-  height: 50vw;
-  width: 80%;
+  height: 60vw;
+  width: 70vw;
+  max-width: 1440px;
   border: 0;
   /* background-color: #3e941c; */
   margin: 0 auto;
-  /* display: grid;
-  grid-template-columns: repeat(46, 1fr);
-  grid-template-rows: repeat(5, 1fr); */
 }
 
 #input {
@@ -16,6 +14,58 @@
 
 .keyboard {
   width: 100%;
-  height: 60%;
+  height: max-content;
   margin-top: 50px;
+  display: grid;
+  grid-template-columns: repeat(46, 1fr);
+  grid-template-rows: repeat(5, 1fr); 
+  grid-gap: 1vw;
 }
+
+.button {
+  font-size: 1.2rem;
+  height: 30px;
+  width: 100%;
+  grid-column-end: span 3;
+  text-align: center;
+  color: #fff;
+  background: #da7b0e;
+  border-radius: 3px;
+  cursor: pointer;
+  padding-top: 1.0vw;
+}
+
+.backspace, .caps {
+  grid-column-end: span 7;
+}
+
+.enter, .shift {
+  grid-column-end: span 6;
+}
+
+.tab {
+  grid-column-end: span 4;
+}
+
+.ctrl {
+  grid-column-end: span 4;
+}
+
+.enter + .shift {
+  grid-column-end: span 7;
+}
+
+.right + .ctrl {
+  grid-column-end: span 3;
+}
+
+.space {
+  grid-column-end: span 21;
+}
+
+.keydown, .button:active {
+  background: #1e2be2;
+  border-radius: 10%;
+}
+
+
