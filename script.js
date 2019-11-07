@@ -28,6 +28,8 @@ else {
   lang = 0;
 }
 
+let ctrlIsDown = 0;
+
 function addButtons () {
   for (let i=0; i<keys.length; i++) {
     let button = document.createElement('div');
@@ -54,132 +56,174 @@ function addButtons () {
             else {
               if (counter%2==0 && lang%2==1) {
                 button.innerHTML = keys[i][2];
+              }
+              else {
+                if (counter%2==1 && lang%2==0) {
+                  button.innerHTML = keys[i][1];
                 }
                 else {
-                  if (counter%2==1 && lang%2==0) {
-                    button.innerHTML = keys[i][1];
-                    }
-            else {
-              button.innerHTML = keys[i][3];
+                  button.innerHTML = keys[i][3];
+                }
+              }
             }
-          }
-          }
           }
         }
       }
     }
     keyboard.append(button);
   }
+  if (counter%2==1) {
+    document.querySelectorAll('.caps')[0].className = 'button caps lock keydown';
+    }
+  else {
+    document.querySelectorAll('.caps')[0].className = 'button caps lock';
+  }
 }
 
 addButtons ();
 
-if (counter%2==1) {
-document.querySelectorAll('.caps')[0].className = 'button caps lock keydown';
-}
-else {
-  document.querySelectorAll('.caps')[0].className = 'button caps lock';
-}
-
-let elements = document.querySelectorAll(".button");
-let content = 0;
-for (let i =0; i<elements.length; i++) {
-  elements[i].onclick  = function(){
-      if (counter%2==0) {
-        content = keys[i][0];
+function editButtons() {
+  for (var j = 0; j < document.querySelectorAll(".button").length; j++) {
+    if (keys[j][1]=='Up') {
+      document.querySelectorAll(".button")[j].innerHTML = '\u2191';
+    }
+    else {
+      if (keys[j][1]=='Left') {
+        document.querySelectorAll(".button")[j].innerHTML = '\u2190';
       }
       else {
-        content = keys[i][1];
-    }
-    if (content=='Space') {
-            input.value += ' ';
+        if (keys[j][1]=='Down') {
+          document.querySelectorAll(".button")[j].innerHTML = '\u2193';
+        }
+        else {
+          if (keys[j][1]=='Right') {
+            document.querySelectorAll(".button")[j].innerHTML = '\u2192';
           }
           else {
-            if (content=='Backspace') {
-              input.value = input.value.slice(0,input.value.length-1);
-            } 
+            if (counter%2==0 && lang%2==0) {
+              document.querySelectorAll(".button")[j].innerHTML = keys[j][0];
+            }
             else {
-              if (content == 'Shift') {
-                input.value += '';
+              if (counter%2==0 && lang%2==1) {
+                document.querySelectorAll(".button")[j].innerHTML = keys[j][2];
               }
               else {
-                if (content == 'Caps Lock') {
-                  counter++;
-                  localStorage.setItem('counter', counter);
-                  for (var j = 0; j < elements.length; j++) {
-                    if (keys[j][1]=='Up') {
-                      elements[j].innerHTML = '\u2191';
-                    }
-                    else {
-                      if (keys[j][1]=='Left') {
-                        elements[j].innerHTML = '\u2190';
-                      }
-                      else {
-                        if (keys[j][1]=='Down') {
-                          elements[j].innerHTML = '\u2193';
-                        }
-                        else {
-                          if (keys[j][1]=='Right') {
-                            elements[j].innerHTML = '\u2192';
-                          }
-                          else {
-                            if (counter%2==0) {
-                            elements[j].innerHTML = keys[j][0];
-                            document.querySelectorAll('.caps')[0].className = 'button caps lock';
-                            }
-                            else {
-                              elements[j].innerHTML = keys[j][1];
-                              document.querySelectorAll('.caps')[0].className = 'button caps lock keydown';
-                            }
-                          }
+                if (counter%2==1 && lang%2==0) {
+                  document.querySelectorAll(".button")[j].innerHTML = keys[j][1];
                 }
-              }  
+                else {
+                  document.querySelectorAll(".button")[j].innerHTML = keys[j][3];
+                }
+              }
             }
           }
         }
-                else {
-                  input.value += content;
-                }
-              } 
-            }
-}}}
+      }  
+    }
+  }
+} 
 
-  document.addEventListener('keydown', function(event) {
+for (let i =0; i<document.querySelectorAll(".button").length; i++) {
+  document.querySelectorAll(".button")[i].onclick  = function(){
+    editButtons();
+    if (document.querySelectorAll(".button")[i].innerHTML=='Ctrl') {
+      ctrlIsDown = 1;
+      document.querySelectorAll('.ctrl')[0].className = 'button ctrl keydown';
+    }
+    else {
+      if (document.querySelectorAll(".button")[i].innerHTML=='Shift') {
+        if (ctrlIsDown == 1) {
+          ctrlIsDown = 0;
+          lang++;
+          localStorage.setItem('lang', lang);
+          editButtons();
+          document.querySelectorAll('.ctrl')[0].className = 'button ctrl';
+        }
+      }
+      else {
+        if (document.querySelectorAll(".button")[i].innerHTML=='Space') {
+        input.value += ' ';
+      }
+        else {
+          if (document.querySelectorAll(".button")[i].innerHTML=='Backspace') {
+            input.value = input.value.slice(0,input.value.length-1);
+          } 
+          else {
+            if (document.querySelectorAll(".button")[i].innerHTML == 'Shift') {
+              input.value += '';
+            }
+            else {
+              if (document.querySelectorAll(".button")[i].innerHTML == 'Enter') {
+                input.value += `\n`;
+              }
+              else {
+                if (document.querySelectorAll(".button")[i].innerHTML == 'Caps Lock') {
+                  counter++;
+                  localStorage.setItem('counter', counter);
+                  editButtons()
+                  if (counter%2==1) {
+                    document.querySelectorAll('.caps')[0].className = 'button caps lock keydown';
+                  } 
+                  else {
+                    document.querySelectorAll('.caps')[0].className = 'button caps lock';
+                  }
+                }
+                else {
+                  if (document.querySelectorAll(".button")[i].innerHTML == 'Tab') {
+                    input.value += '    ';
+                }
+                  else {
+                    if (document.querySelectorAll(".button")[i].innerHTML == 'Alt') {
+                      input.value += '';
+                    }
+                    else {
+                      if (document.querySelectorAll(".button")[i].innerHTML == 'Del') {
+                        input.value = input.value.slice(1,input.value.length);
+                      }
+                      else {
+                        input.value += document.querySelectorAll(".button")[i].innerHTML;
+                      }
+                    }
+                  }
+                } 
+              }
+            }  
+          }
+        }
+      }
+    }
+  }
+}
+
+document.addEventListener('keydown', function(event) {
+  if (event.keyCode == 17) {
+    ctrlIsDown = 1;
+  }
+  else {
+    if (event.keyCode == 16) {
+      if (ctrlIsDown == 1) {
+      ctrlIsDown = 0;
+      lang++;
+      localStorage.setItem('lang', lang);
+      editButtons();
+    }
+  }
+    else {
     if (event.keyCode == 20) {
       counter++;
       localStorage.setItem('counter', counter);
-      for (var j = 0; j < elements.length; j++) {
-        if (keys[j][1]=='Up') {
-          elements[j].innerHTML = '\u2191';
+      editButtons();
+      if (counter%2==1) {
+        document.querySelectorAll('.caps')[0].className = 'button caps lock keydown';
         }
         else {
-          if (keys[j][1]=='Left') {
-            elements[j].innerHTML = '\u2190';
-          }
-          else {
-            if (keys[j][1]=='Down') {
-              elements[j].innerHTML = '\u2193';
-            }
-            else {
-              if (keys[j][1]=='Right') {
-                elements[j].innerHTML = '\u2192';
-              }
-              else {
-                if (counter%2==0) {
-                elements[j].innerHTML = keys[j][0];
-                document.querySelectorAll('.caps')[0].className = 'button caps lock';
-                }
-                else {
-                  elements[j].innerHTML = keys[j][1];
-                  document.querySelectorAll('.caps')[0].className = 'button caps lock keydown';
-                }
-              }
-            }
-          }  
+          document.querySelectorAll('.caps')[0].className = 'button caps lock';
         }
-      }
     }
-    for (let i=0; i<elements.length; i++) {
+  }
+}
+    for (let i=0; i<document.querySelectorAll(".button").length; i++) {
+
     if (event.code=='ShiftLeft') {  
       document.querySelectorAll('.enter + .shift')[0].className = document.querySelectorAll(".enter + .shift")[0].className + ' keydown';
       setTimeout(() => document.querySelectorAll(".enter + .shift")[0].className = document.querySelectorAll(".enter + .shift")[0].className.slice(0, document.querySelectorAll(".enter + .shift")[0].className.length-8), 100);
@@ -210,8 +254,8 @@ for (let i =0; i<elements.length; i++) {
               }   
               else {
                 if(keys[i][4] == event.keyCode) {
-                  elements[i].className = elements[i].className + ' keydown';
-                  setTimeout(() => elements[i].className = elements[i].className.slice(0, elements[i].className.length-8), 100);
+                  document.querySelectorAll(".button")[i].className = document.querySelectorAll(".button")[i].className + ' keydown';
+                  setTimeout(() => document.querySelectorAll(".button")[i].className = document.querySelectorAll(".button")[i].className.slice(0, document.querySelectorAll(".button")[i].className.length-8), 100);
                 };
               }
             }
@@ -221,3 +265,9 @@ for (let i =0; i<elements.length; i++) {
     }
   }
 });
+
+document.addEventListener('keyup', function(event) {
+  if (event.keyCode == 17) {
+    ctrlIsDown = 0;
+  }
+})

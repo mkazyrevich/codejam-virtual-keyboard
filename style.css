@@ -29,7 +29,7 @@
   grid-column-end: span 3;
   text-align: center;
   color: #fff;
-  background: #da7b0e;
+  background: #130a01;
   border-radius: 3px;
   cursor: pointer;
   padding-top: 1.0vw;
@@ -63,9 +63,12 @@
   grid-column-end: span 21;
 }
 
-.keydown, .button:active {
-  background: #1e2be2;
+.keydown, .button:hover {
+  background: #ceced4;
   border-radius: 10%;
 }
 
-
+.keydown, .button:active {
+  background: #6f6f72;
+  border-radius: 10%;
+}
